@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $results = $users->createUsers($username, $password);
             switch ($results) {
-                case 'Success':
+                case true:
                     Session::setSession('user', [
                         'id' => $db->lastInsertId(),
                         'username' => $username
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header('Location: ./index.php');
                     break;
                 default:
-                    $errors[] = $results;
+                    $errors[] = 'This username already exists.';
                     break;
             }
         }

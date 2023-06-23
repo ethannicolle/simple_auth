@@ -11,10 +11,10 @@ class Users
         $this->db = $db;
     }
 
-    public function createUsers(string $name, string $password): string
+    public function createUsers(string $name, string $password): bool
     {
 
-        if ($this->userExists($name)) return 'This username already exists.';
+        if ($this->userExists($name)) return false;
 
         $hashedPassword = password_hash($password, PASSWORD_ARGON2ID);
 
@@ -24,14 +24,12 @@ class Users
         $query->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
         $query->execute();
 
-        return 'Success';
+        return true;
     }
     
     public function logUser(string $name, string $password)
     {
-
-        $errorMessage = 'Invalid username or password.';
-        if(!$this->userExists($name)) return $errorMessage;
+        if(!$this->userExists($name)) return false;
 
         $sql = 'SELECT * FROM `users` WHERE `username` = :username';
         $query = $this->db->prepare($sql);
@@ -39,7 +37,7 @@ class Users
         $query->execute();
 
         $user = $query->fetch();
-        if(!password_verify($password, $user['password'])) return $errorMessage;
+        if(!password_verify($password, $user['password'])) return false;
 
         return $user;
     }

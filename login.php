@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ]);
                     header('Location: ./index.php');
                     break;
-                case 'Invalid username or password.':
-                    $errors[] = $results;
+                case false:
+                    $errors[] = 'Invalid username or password.';
                     break;
             }
         }
