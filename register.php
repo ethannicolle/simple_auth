@@ -17,10 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = strip_tags($_POST['username']);
     $password = $_POST['password'];
 
-    if ($username && $password) {
+    if (strlen($username) < MIN_USERNAME_LENGTH || strlen($username) > MAX_USERNAME_LENGTH) $errors[] = 'Username must contain between ' . MIN_USERNAME_LENGTH . ' and ' . MAX_USERNAME_LENGTH . ' characters.';
+    if (strlen($password) < MIN_USERNAME_LENGTH || strlen($password) > MAX_USERNAME_LENGTH) $errors[] = 'Password must contain between ' . MIN_PASSWORD_LENGTH . ' and ' . MAX_PASSWORD_LENGTH . ' characters.';
 
-        if (strlen($username) < MIN_USERNAME_LENGTH || strlen($username) > MAX_USERNAME_LENGTH) $errors[] = 'Username must contain between ' . MIN_USERNAME_LENGTH . ' and ' . MAX_USERNAME_LENGTH . ' characters.';
-        if (strlen($password) < MIN_USERNAME_LENGTH || strlen($password) > MAX_USERNAME_LENGTH) $errors[] = 'Password must contain between ' . MIN_PASSWORD_LENGTH . ' and ' . MAX_PASSWORD_LENGTH . ' characters.';
+    if ($username && $password) {
 
         if (empty($errors)) {
 
