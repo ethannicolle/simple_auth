@@ -24,16 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($errors)) {
 
-            $results = $users->createUsers($username, $password);
+            $results = $users->logUser($username, $password);
             switch ($results) {
-                case 'Success':
-                    Session::setSession('user', [
-                        'id' => $db->lastInsertId(),
+                default:
+                    Session::setSession('user',  [
+                        'id' => $results['id'],
                         'username' => $username
                     ]);
                     header('Location: ./index.php');
                     break;
-                default:
+                case 'Invalid username or password.':
                     $errors[] = $results;
                     break;
             }
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register form</title>
+    <title>Log in form</title>
 </head>
 
 <body>
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="password">Password</label>
             <input type="password" name="password" id="password">
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">Log in</button>
     </form>
 
 </body>
